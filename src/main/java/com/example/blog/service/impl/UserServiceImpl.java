@@ -7,6 +7,7 @@ import com.example.blog.repository.UserRepository;
 import com.example.blog.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,6 +18,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public User addUser(User user) {
@@ -24,6 +26,8 @@ public class UserServiceImpl implements UserService {
             log.error("Failed to register user. user already exists with the requested email.");
             throw new UserNotFoundByEmailException("Email has already been registered  ");
         }
+        String encryptedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encryptedPassword);
         return userRepository.save(user);
     }
 
