@@ -7,4 +7,8 @@ public interface BlogService {
     Blog addBlog(Blog blog,String email);
 
     Blog findBlogById(String id);
+
+    Blog deleteBlogById(String id);
+
+    Blog updateBlogById(String id, Blog blog);
 }

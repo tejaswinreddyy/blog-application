@@ -2,25 +2,37 @@ package com.example.blog.service.impl;
 
 import com.example.blog.entity.User;
 import com.example.blog.exceptions.UserNotFoundByEmailException;
+import com.example.blog.exceptions.UserNotFoundByIdException;
 import com.example.blog.repository.UserRepository;
 import com.example.blog.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository blogRepository;
+    private final UserRepository userRepository;
 
     @Override
     public User addUser(User user) {
-        if(blogRepository.existsByEmail(user.getEmail())){
+        if(userRepository.existsByEmail(user.getEmail())){
             log.error("Failed to register user. user already exists with the requested email.");
             throw new UserNotFoundByEmailException("Email has already been registered  ");
         }
-        return blogRepository.save(user);
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User findByUserId(String id) {
+        Optional<User> optional = userRepository.findById(id);
+        if(optional.isEmpty()){
+            throw new UserNotFoundByIdException("User id not found");
+        }
+        return optional.get();
     }
 }

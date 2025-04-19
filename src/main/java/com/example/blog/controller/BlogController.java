@@ -27,6 +27,16 @@ public class BlogController {
         return resposeBuilder.ok("Blog has been successfully fetched", blog);
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping("/blogs/{id}")
+    public ResponseEntity<ResponseStructure<Blog>> deleteBlogById(@PathVariable String id){
+        Blog blog = blogService.deleteBlogById(id);
+        return resposeBuilder.ok("Blog has been successfully Deleted", blog);
+    }
+
+    @PutMapping("/blogs/{id}")
+    public ResponseEntity<ResponseStructure<Blog>> updateBlogById(@PathVariable String id, @RequestBody Blog blog){
+        Blog blog1 = blogService.updateBlogById(id,blog);
+        return resposeBuilder.ok("Blog has been successfully updated", blog1);
+    }
 
 }
