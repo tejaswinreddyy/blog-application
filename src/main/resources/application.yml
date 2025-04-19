@@ -1,7 +1,7 @@
 Spring:
   #Application Properties
   application:
-    name: movie-ticket-booking-system-api
+    name: blog-application
 
   #Datasource Properties
   datasource:

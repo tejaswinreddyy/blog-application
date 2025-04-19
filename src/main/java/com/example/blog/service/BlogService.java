@@ -1,7 +1,10 @@
 package com.example.blog.service;
 
-import com.example.blog.entity.User;
+import com.example.blog.entity.Blog;
 
 public interface BlogService {
-    User addUser(User user);
+
+    Blog addBlog(Blog blog,String email);
+
+    Blog findBlogById(String id);
 }

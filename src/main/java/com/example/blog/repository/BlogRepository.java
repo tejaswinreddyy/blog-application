@@ -1,10 +1,7 @@
 package com.example.blog.repository;
 
-import com.example.blog.entity.User;
+import com.example.blog.entity.Blog;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface BlogRepository extends JpaRepository<User, String> {
-
-    boolean existsByEmail(String email);
-
+public interface BlogRepository extends JpaRepository<Blog, String> {
 }
