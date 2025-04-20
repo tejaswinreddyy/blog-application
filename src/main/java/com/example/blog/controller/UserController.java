@@ -6,10 +6,8 @@ import com.example.blog.util.ResponseStructure;
 import com.example.blog.util.ResponseBuilderFactory;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
@@ -24,9 +22,10 @@ public class UserController {
        return responseBuilder.created("User has been successfully created", user1);
     }
 
-    @PostMapping("/users/{id}")
-    public ResponseEntity<ResponseStructure<User>> findUserById(@PathVariable String id){
-        User user = userService.findByUserId(id);
+    @GetMapping("/account")
+    public ResponseEntity<ResponseStructure<User>> findUserByEmail(){
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userService.findByUserId(email);
         return responseBuilder.ok("User has been found", user);
     }
 

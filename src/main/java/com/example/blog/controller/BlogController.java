@@ -7,6 +7,7 @@ import com.example.blog.util.ResponseBuilderFactory;
 import com.example.blog.util.ResponseStructure;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -20,7 +21,8 @@ public class BlogController {
     private final ResponseBuilderFactory resposeBuilder;
 
     @PostMapping("/blogs")
-    public ResponseEntity<ResponseStructure<Blog>> addBlog(@RequestBody Blog blog,  String email){
+    public ResponseEntity<ResponseStructure<Blog>> addBlog(@RequestBody Blog blog){
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Blog blog1 = blogService.addBlog(blog,email);
         return resposeBuilder.created("Blog has been succesfully created", blog1);
     }

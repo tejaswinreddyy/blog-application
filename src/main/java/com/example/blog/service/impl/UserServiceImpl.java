@@ -32,11 +32,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByUserId(String id) {
-        Optional<User> optional = userRepository.findById(id);
-        if(optional.isEmpty()){
+    public User findByUserId(String email) {
+        User user = userRepository.findByEmail(email);
+        if(user == null){
             throw new UserNotFoundByIdException("User id not found");
         }
-        return optional.get();
+        return user;
     }
 }
