@@ -5,9 +5,9 @@ Spring:
 
   #Datasource Properties
   datasource:
-    url: jdbc:mysql://localhost:3306/blog-application?createDatabaseIfNotExist=true
-    username: root
-    password: root
+    url: ${MYSQL_URL:jdbc:mysql://localhost:3306/blog-application?createDatabaseIfNotExist=true}
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:root}
 
   #JPA Details
   jpa:
