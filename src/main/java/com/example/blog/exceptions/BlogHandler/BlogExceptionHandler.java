@@ -1,6 +1,7 @@
 package com.example.blog.exceptions.BlogHandler;
 
 import com.example.blog.exceptions.BlogNotFoundByIdException;
+import com.example.blog.exceptions.BlogsNotFoundException;
 import com.example.blog.util.ErrorStructure;
 import com.example.blog.util.ResponseBuilderFactory;
 import lombok.AllArgsConstructor;
@@ -18,5 +19,10 @@ public class BlogExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<ErrorStructure> handleBlogNotFoundByIdException(BlogNotFoundByIdException ex){
         return responseStructure.respondWith(HttpStatus.BAD_REQUEST, "Blog Id Not Found in the database");
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorStructure> handleBlogsNotFoundException(BlogsNotFoundException ex){
+        return responseStructure.respondWith(HttpStatus.NOT_FOUND, "No Blogs present in the database");
     }
 }

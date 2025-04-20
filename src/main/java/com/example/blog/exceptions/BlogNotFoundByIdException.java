@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class BlogNotFoundByIdException extends RuntimeException {
 
-  String message;
+  private String message;
 
     public BlogNotFoundByIdException(String message) {
         this.message = message;
