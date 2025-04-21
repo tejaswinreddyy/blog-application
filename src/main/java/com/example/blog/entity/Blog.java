@@ -20,8 +20,10 @@ public class Blog {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String blogId;
     private String title;
+
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String description;
-    private boolean isPublished;
 
     @ManyToOne
     @JsonIgnore

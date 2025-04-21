@@ -9,7 +9,6 @@ import com.example.blog.repository.BlogRepository;
 import com.example.blog.repository.UserRepository;
 import com.example.blog.service.BlogService;
 import lombok.AllArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +23,6 @@ public class BlogServiceImpl implements BlogService {
 
     private final BlogRepository blogRepository;
     private final UserRepository userRepository;
-    private final PaginatedResponseDTO responseDTO;
 
     @Override
     public Blog addBlog(Blog blog, String email) {
@@ -61,12 +59,12 @@ public class BlogServiceImpl implements BlogService {
        fetchedblog.setTitle(blog.getTitle());
         fetchedblog.setDescription(blog.getDescription());
 
-       return blogRepository.save(blog);
+       return blogRepository.save(fetchedblog);
 
     }
 
     @Override
-    public PaginatedResponseDTO findBlogs(int page, int size) {
+    public PaginatedResponseDTO<List<Blog>> findBlogs(int page, int size) {
 
         Pageable pageable = (Pageable) PageRequest.of(page, size);
         Page<Blog> pages = blogRepository.findAll((org.springframework.data.domain.Pageable) pageable);
@@ -75,11 +73,31 @@ public class BlogServiceImpl implements BlogService {
             throw new BlogsNotFoundException("No Blogs has been found");
         }
 
+        PaginatedResponseDTO<List<Blog>> responseDTO = new PaginatedResponseDTO<>();
         responseDTO.setTotalPages(pages.getTotalPages());
-        responseDTO.setItems(pages.toList());
+        responseDTO.setData(pages.getContent());
         responseDTO.setPageSize(pages.getSize());
 
         return responseDTO;
+    }
+
+    @Override
+    public PaginatedResponseDTO<List<Blog>> findAllByUserEmail(String email, int page, int size) {
+
+        Pageable object = (Pageable) PageRequest.of(page, size);
+        Page<Blog> pages = blogRepository.findAllByUserEmail(email,object);
+
+        if (pages.isEmpty()){
+            throw new BlogsNotFoundException("No Blogs Has Been Found");
+        }
+
+        PaginatedResponseDTO<List<Blog>> responseDTO = new PaginatedResponseDTO<>();
+        responseDTO.setTotalPages(pages.getTotalPages());
+        responseDTO.setData(pages.getContent());
+        responseDTO.setPageSize(pages.getSize());
+
+        return responseDTO;
+
     }
 
 
